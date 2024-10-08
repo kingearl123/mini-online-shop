@@ -145,14 +145,6 @@ const makeRequestWithRetry = async (req, attempts = 3) => {
           quantity: item.quantity,
           name: item.name,
         })),
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Basic ${Buffer.from("midtrans-server-key").toString(
-            "base64"
-          )}`,
-        },
       }
     );
 
