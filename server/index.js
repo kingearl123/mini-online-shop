@@ -149,9 +149,9 @@ const makeRequestWithRetry = async (req, attempts = 3) => {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Basic ${Buffer.from("midtrans-server-key").toString(
-            "base64"
-          )}`,
+          Authorization: `Basic ${Buffer.from(
+            "Mid-server-vSl-Q_y6UUZ8cHFLtCOiXoo1"
+          ).toString("base64")}`,
         },
       }
     );
