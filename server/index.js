@@ -133,7 +133,7 @@ const makeRequestWithRetry = async (req, attempts = 3) => {
     const orderId = `order-${Date.now()}`;
 
     const midtransResponse = await axios.post(
-      "",
+      "https://app.midtrans.com/snap/v1/transactions",
       {
         transaction_details: {
           gross_amount: total, // Pastikan ini adalah angka
