@@ -132,18 +132,29 @@ const makeRequestWithRetry = async (req, attempts = 3) => {
     // Generate a unique order ID
     const orderId = `order-${Date.now()}`;
 
-    const midtransResponse = await axios.post("", {
-      transaction_details: {
-        gross_amount: total, // Pastikan ini adalah angka
-        order_id: orderId, // ID pesanan unik
+    const midtransResponse = await axios.post(
+      "https://app.midtrans.com/snap/v1/transactions",
+      {
+        transaction_details: {
+          gross_amount: total, // Pastikan ini adalah angka
+          order_id: orderId, // ID pesanan unik
+        },
+        item_details: cart.map((item) => ({
+          id: item._id,
+          price: item.price,
+          quantity: item.quantity,
+          name: item.name,
+        })),
       },
-      item_details: cart.map((item) => ({
-        id: item._id,
-        price: item.price,
-        quantity: item.quantity,
-        name: item.name,
-      })),
-    });
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${Buffer.from("midtrans-server-key").toString(
+            "base64"
+          )}`,
+        },
+      }
+    );
 
     console.log("Midtrans response:", midtransResponse.data);
     return midtransResponse.data;
