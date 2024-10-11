@@ -291,6 +291,10 @@ app.delete("/api/products/:id", async (req, res) => {
 
 app.use("/uploads", express.static("uploads"));
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Online Shop API!");
+});
+
 // Mulai server
 app.listen(PORT, () =>
   console.log(`Server running on port http://localhost:${PORT}`)
