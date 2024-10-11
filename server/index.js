@@ -7,8 +7,9 @@ const ModelsUser = require("./models/ModelsUser");
 const ModelsProduct = require("./models/ModelsProduct");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto"); // Mengimpor modul crypto
+const crypto = require("crypto");
 const axios = require("axios");
+
 const app = express();
 const PORT = 8000;
 
@@ -71,32 +72,32 @@ app.post("/api/login", async (req, res) => {
     return res.status(400).send("Invalid username or password");
   }
 
-  let role;
-  if (user.role === "admin") {
-    role = "admin";
-  } else {
-    role = "customer";
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    console.log("Password mismatch");
+    return res.status(400).send("Invalid username or password");
   }
 
   const token = jwt.sign({ _id: user._id }, JWT_SECRET_KEY);
-
-  res.json({ role, token });
+  res.json({ role: user.role, token });
 });
 
 app.post("/api/register", async (req, res) => {
   const { username, password, role } = req.body;
+
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new ModelsUser({ username, password: hashedPassword, role });
   await user.save();
   res.send("User registered");
 });
 
+// Rute untuk mendapatkan semua pengguna
 app.get("/api/users", async (req, res) => {
   try {
     const users = await ModelsUser.find({});
     res.json(users);
   } catch (error) {
-    res.status(500).send("server error");
+    res.status(500).send("Server error");
   }
 });
 
@@ -270,6 +271,7 @@ app.use("/uploads", express.static("uploads"));
 app.get("/", (req, res) => {
   res.send("Welcome to the Online Shop API!");
 });
+
 // Mulai server
 app.listen(PORT, () =>
   console.log(`Server running on port http://localhost:${PORT}`)
