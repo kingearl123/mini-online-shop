@@ -9,7 +9,9 @@ const Show = () => {
 
   const deleteProduct = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/api/products/${id}`);
+      await axios.delete(
+        `https://mini-online-shop-1.vercel.app/api/products/${id}`
+      );
       setProducts(products.filter((product) => product._id !== id));
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -28,7 +30,7 @@ const Show = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/products/uploads/"
+          "https://mini-online-shop-1.vercel.app/api/products/uploads/"
         );
         console.log(response.data); // Log the response
         setProducts(response.data);
@@ -66,7 +68,7 @@ const Show = () => {
                 <td className="img-preview">
                   {product.image ? (
                     <img
-                      src={`http://localhost:8000/${product.image}`}
+                      src={`https://mini-online-shop-1.vercel.app/${product.image}`}
                       alt={product.name}
                       style={{ width: "50px", height: "auto" }}
                     />

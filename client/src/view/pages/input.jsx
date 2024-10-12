@@ -40,7 +40,7 @@ const Input = () => {
       formData.append("image", product.image);
 
       const response = await axios.post(
-        "http://localhost:8000/api/products",
+        "https://mini-online-shop-1.vercel.app/api/products",
         formData,
         {
           headers: {
