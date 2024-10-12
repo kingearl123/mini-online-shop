@@ -202,13 +202,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Rute untuk mengunggah gambar produk
-app.post("/api/products/uploads", upload.single("image"), async (req, res) => {
+app.post("/api/products", upload.single("image"), async (req, res) => {
   try {
-    // Validate input
+    // Validasi input
     if (!req.body.name || !req.body.price || !req.body.description) {
       return res
         .status(400)
-        .send("Name, price, and description are required for the product.");
+        .send("Nama, harga, dan deskripsi produk diperlukan.");
     }
 
     // Create a new product object
